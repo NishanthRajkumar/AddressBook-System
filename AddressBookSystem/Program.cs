@@ -19,4 +19,8 @@ myContacts.Display();
 myContacts.EditContact();
 myContacts.Display();
 
+// Delete Contact from AddressBook
+myContacts.DeleteContact();
+myContacts.Display();
+
 Console.ReadKey();

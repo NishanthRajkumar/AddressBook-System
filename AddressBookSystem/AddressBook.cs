@@ -55,6 +55,21 @@ internal class AddressBook
             Console.WriteLine("The contact does not exist");
     }
 
+    // Delete Contact if name matches
+    public void DeleteContact()
+    {
+        Console.Write("Enter Name of contact to delete: ");
+        string name = Console.ReadLine();
+        if (addresses.ContainsKey(name))
+        {
+            addresses.Remove(name);
+            Console.WriteLine("Contact removed");
+        }
+        else
+            Console.WriteLine("Contact does not exist");
+    }
+
+    // Displays the full AddressBook
     public void Display()
     {
         foreach (var name in addresses.Keys)
