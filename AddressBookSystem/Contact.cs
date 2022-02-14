@@ -1,106 +1,54 @@
-﻿using System.Text.RegularExpressions;
-
-namespace AddressBookSystem;
+﻿namespace AddressBookSystem;
 
 
 internal class Contact
 {
-    private string firstName;
-    private string lastName;
-    private string email;
-    private string phone;
-    private string city;
-    private string state;
-    private string zip;
-    private string address;
+    // Declared attributes required for a person's contact
+    private string firstName = "";
+    private string lastName = "";
+    private string email = "";
+    private string phone = "";
+    private string city = "";
+    private string state = "";
+    private string zip = "";
+    private string address = "";
 
-    // Default Constructor
+    // Default Constructor: Ensures there is user input
     public Contact()
     {
         GetContactInfo();
     }
 
-    // Parameterised Constructor: Takes necessary info in parameters
+    // Parameterised Constructor: Takes first name & phone in parameters
     public Contact(string firstName, string phone)
     {
         this.firstName = firstName;
-        this.phone = phone;
+        if (UserInput.PhoneCheck(phone))
+            this.phone = phone;
+    }
+
+    // Parameterised Constructor: Takes first name as parameter
+    public Contact(string firstName)
+    {
+        this.firstName = firstName;
     }
 
     // Gets contact info from user
     private void GetContactInfo()
     {
-        firstName = GetString("First name: ");
+        firstName = UserInput.GetName("First name: ");
         Console.Write("Last Name: ");
-        lastName = Console.ReadLine();
+        lastName = UserInput.ReadString();
         Console.Write("Email: ");
-        email = Console.ReadLine();
-        phone = GetNumber("Phone: ");
+        email = UserInput.ReadString();
+        phone = UserInput.GetNumber("Phone: ");
         Console.Write("City: ");
-        city = Console.ReadLine();
+        city = UserInput.ReadString();
         Console.Write("State: ");
-        state = Console.ReadLine();
-        zip = GetZip("Zip: ");
+        state = UserInput.ReadString();
+        zip = UserInput.GetZip("Zip: ");
         Console.Write("Address: ");
-        address = Console.ReadLine();
-    }
-
-    // Ensures the input is non-null string
-    private static string GetString(string message)
-    {
-        string input;
-        do
-        {
-            Console.Write(message);
-            input = Console.ReadLine();
-        } while (input == null);
-        return input;
-    }
-
-    // Ensures the input matches phone patterns
-    private static string GetNumber(string message)
-    {
-        string input;
-        do
-        {
-            Console.Write(message);
-            input = Console.ReadLine();
-        } while (PhoneCheck(input) is false);
-        return input;
-    }
-
-    // Ensures the input matches zipcode patterns
-    private static string GetZip(string message)
-    {
-        string input;
-        do
-        {
-            Console.Write(message);
-            input = Console.ReadLine();
-        } while (ZipCheck(input) is false);
-        return input;
-    }
-
-    // Checks if input matches zip pattern
-    private static bool ZipCheck(string input)
-    {
-        string zipPattern = @"(^[0-9]{6}$)";
-        Regex number = new Regex(zipPattern);
-        Match match = number.Match(input);
-        if (match.Success || String.IsNullOrEmpty(input))
-            return true;
-        return false;
-    }
-
-    // Checks if input matches phone pattern
-    private static bool PhoneCheck(string input)
-    {
-        string phonePattern = @"(^[0-9]{10}$)|(^\+{1}[0-9]{2}[0-9]{10}$)|(^[0-9]{3}[-]{0,1}[0-9]{8}$)";
-        Regex number = new Regex(phonePattern);
-        Match match = number.Match(input);
-        if (match.Success)
-            return true;
-        return false;
+        address = UserInput.ReadString();
     }
 
     // Displays full contact 

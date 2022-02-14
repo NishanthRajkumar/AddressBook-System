@@ -16,7 +16,7 @@ internal class AddressBook
     // Create new contact then add to AddressBook
     public void CreateContact()
     {
-        Contact contact = new Contact();
+        Contact contact = new();
         AddContact(contact);
     }
 
@@ -24,8 +24,10 @@ internal class AddressBook
     public void AddContact(Contact contact)
     {
         string name = contact.GetName();
-        if (addresses.ContainsKey(name) is false)
+        if (addresses.ContainsKey(name) is false && String.IsNullOrEmpty(name) is false)
             addresses.Add(name, contact);
+        else if (String.IsNullOrEmpty(name))
+            Console.WriteLine("Invalid Contac name");
         else
             Console.WriteLine("Contact name already exists");
     }
@@ -34,7 +36,7 @@ internal class AddressBook
     public void EditContact()
     {
         Console.Write("Enter Name of contact to edit: ");
-        string name = Console.ReadLine();
+        string name = UserInput.ReadString();
         if (addresses.ContainsKey(name))
         {
             Console.WriteLine("\nCurrent info of " + name);
@@ -59,7 +61,7 @@ internal class AddressBook
     public void DeleteContact()
     {
         Console.Write("Enter Name of contact to delete: ");
-        string name = Console.ReadLine();
+        string name = UserInput.ReadString();
         if (addresses.ContainsKey(name))
         {
             addresses.Remove(name);
