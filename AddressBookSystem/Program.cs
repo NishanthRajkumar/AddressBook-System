@@ -15,4 +15,8 @@ Contact contact = new Contact("Nishanth", "+918842549729");
 myContacts.AddContact(contact);
 myContacts.Display();
 
+// Edit contact in AddressBook
+myContacts.EditContact();
+myContacts.Display();
+
 Console.ReadKey();

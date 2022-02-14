@@ -114,4 +114,12 @@ internal class Contact
         Console.WriteLine("Zip: " + zip);
         Console.WriteLine("Address: " + address);
     }
+
+    // Return the full name
+    public string GetName()
+    {
+        if (String.IsNullOrEmpty(lastName) is true)
+            return firstName;
+        return firstName + " " + lastName;
+    }
 }
