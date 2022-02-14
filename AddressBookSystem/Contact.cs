@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+﻿using System.Text.RegularExpressions;
 
 namespace AddressBookSystem;
 
@@ -58,7 +53,7 @@ internal class Contact
         {
             Console.Write(message);
             input = Console.ReadLine();
-        }while (input == null);
+        } while (input == null);
         return input;
     }
 
@@ -70,7 +65,7 @@ internal class Contact
         {
             Console.Write(message);
             input = Console.ReadLine();
-        }while(PhoneCheck(input) is false);
+        } while (PhoneCheck(input) is false);
         return input;
     }
 
@@ -111,7 +106,7 @@ internal class Contact
     // Displays full contact 
     public void Display()
     {
-        Console.WriteLine("Name: " + firstName + " " + lastName);
+        Console.WriteLine("\nName: " + firstName + " " + lastName);
         Console.WriteLine("Email: " + email);
         Console.WriteLine("Phone: " + phone);
         Console.WriteLine("City: " + city);

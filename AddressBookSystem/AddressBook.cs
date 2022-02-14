@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-
-namespace AddressBookSystem;
+﻿namespace AddressBookSystem;
 
 
 internal class AddressBook
@@ -24,6 +17,12 @@ internal class AddressBook
     public void CreateContact()
     {
         contacts.Add(new Contact());
+    }
+
+    // Add Contact to AddressBook
+    public void AddContact(Contact contact)
+    {
+        contacts.Add(contact);
     }
 
     public void Display()
