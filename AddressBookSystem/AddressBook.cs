@@ -25,7 +25,10 @@ internal class AddressBook
     {
         string name = contact.GetName();
         if (addresses.ContainsKey(name) is false && String.IsNullOrEmpty(name) is false)
+        {
             addresses.Add(name, contact);
+            Console.WriteLine("Contact Added Successfully");
+        }
         else if (String.IsNullOrEmpty(name))
             Console.WriteLine("Invalid Contac name");
         else

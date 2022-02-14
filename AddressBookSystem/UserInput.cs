@@ -34,7 +34,7 @@ internal static class UserInput
         {
             Console.Write(message);
             input = ReadString();
-        } while (PhoneCheck(input) is false);
+        } while (PhoneCheck(input) is false && input != "");
         return input;
     }
 
@@ -48,6 +48,25 @@ internal static class UserInput
             input = ReadString();
         } while (ZipCheck(input) is false);
         return input;
+    }
+
+    // Ensures user input is positve integer
+    public static int GetPositiveInt(string message)
+    {
+        int n;
+        string input;
+        bool IS_INT32;
+        do
+        {
+            do
+            {
+                Console.Write(message);
+                input = ReadString();
+                IS_INT32 = Int32.TryParse(input, out n);
+            } while (IS_INT32 is false);
+            n = Convert.ToInt32(input);
+        } while (n < 0);
+        return n;
     }
 
     // Checks if input matches phone pattern
