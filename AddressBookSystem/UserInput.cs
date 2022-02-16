@@ -64,7 +64,6 @@ internal static class UserInput
                 input = ReadString();
                 IS_INT32 = Int32.TryParse(input, out n);
             } while (IS_INT32 is false);
-            n = Convert.ToInt32(input);
         } while (n < 0);
         return n;
     }

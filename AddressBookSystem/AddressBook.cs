@@ -45,7 +45,7 @@ internal class AddressBook
             Console.WriteLine("\nCurrent info of " + name);
             addresses[name].Display();
             Console.WriteLine("\nEdit info: ");
-            Contact contact = new Contact();
+            Contact contact = new();
             string newName = contact.GetName();
             if (addresses.ContainsKey(newName) is false || newName == name)
             {
