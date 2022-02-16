@@ -16,8 +16,7 @@ internal class AddressBook
     // Create new contact then add to AddressBook
     public void CreateContact()
     {
-        Contact contact = new();
-        AddContact(contact);
+        AddContact(new Contact());
     }
 
     // Add Contact to AddressBook
@@ -33,6 +32,14 @@ internal class AddressBook
             Console.WriteLine("Invalid Contac name");
         else
             Console.WriteLine("Contact name already exists");
+    }
+
+    // Add Multiple Contacts
+    public void AddMultipleContacts()
+    {
+        int numberOfContacts = UserInput.GetPositiveInt("Enter no of Contacts to add: ");
+        for (int i = 0; i < numberOfContacts; i++)
+            CreateContact();
     }
 
     // Allows Editing of contact based on fullname
