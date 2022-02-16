@@ -1,9 +1,9 @@
 ﻿namespace AddressBookSystem;
 
-// This class used for keeping collection of AddressBook objects
+// This class keeps collection of Address books
 internal class AddressBookLibrary
 {
-    private Dictionary<string, AddressBook> library;
+    private readonly Dictionary<string, AddressBook> library;
 
     // Default Constructor
     public AddressBookLibrary()
@@ -24,5 +24,23 @@ internal class AddressBookLibrary
             Console.WriteLine("Invalid name");
         else
             Console.WriteLine("AddressBook with that name already exists");
+    }
+
+    // Opens an existing AddressBook with menu option to interact with it
+    public void OpenAddressBook()
+    {
+        string name = UserInput.GetName("Enter Name of AddressBook: ");
+        if (library.ContainsKey(name))
+            AddressBookMenu.List(name, library[name]);
+        else
+            Console.WriteLine("Addressbook with that name does not exist");
+    }
+
+    // Display all Address Books in the library
+    public void Display()
+    {
+        Console.WriteLine("List of Address Books:");
+        foreach (var name in library.Keys)
+            Console.WriteLine(name);
     }
 }

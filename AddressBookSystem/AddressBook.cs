@@ -1,11 +1,10 @@
 ﻿namespace AddressBookSystem;
 
-
+// This Class handles all contacts in an address book
 internal class AddressBook
 {
     // class attributes
-    private Dictionary<string, Contact> addresses;
-
+    private readonly Dictionary<string, Contact> addresses;
 
     // Default constructor
     public AddressBook()
@@ -84,6 +83,7 @@ internal class AddressBook
     // Displays the full AddressBook
     public void Display()
     {
+        Console.WriteLine("List of Contacts:");
         foreach (var name in addresses.Keys)
             addresses[name].Display();
     }

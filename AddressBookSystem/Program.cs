@@ -2,6 +2,4 @@
 
 Console.Title = "AddressBook System";
 
-Menu.List();
-
-Console.ReadKey();
+LibraryMenu.List();

@@ -1,6 +1,6 @@
 ﻿namespace AddressBookSystem;
 
-
+// This class handles each individual contact
 internal class Contact
 {
     // Declared attributes required for a person's contact
