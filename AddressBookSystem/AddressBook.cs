@@ -1,24 +1,33 @@
 ﻿namespace AddressBookSystem;
 
-// This Class handles all contacts in an address book
+/// <summary>
+/// This Class handles all contacts in an address book
+/// </summary>
 internal class AddressBook
 {
-    // class attributes
+    // Dictionary for storing contacts with unique name
     private readonly Dictionary<string, Contact> addresses;
 
-    // Default constructor
+    /// <summary>
+    /// Initializes a new instance of the <see cref="AddressBook"/> class.
+    /// </summary>
     public AddressBook()
     {
         addresses = new Dictionary<string, Contact>();
     }
 
-    // Create new contact then add to AddressBook
+    /// <summary>
+    /// Creates a new contact.
+    /// </summary>
     public void CreateContact()
     {
         AddContact(new Contact());
     }
 
-    // Add Contact to AddressBook
+    /// <summary>
+    /// Adds the contact to the AddressBook.
+    /// </summary>
+    /// <param name="contact">The Contact object.</param>
     public void AddContact(Contact contact)
     {
         string name = contact.GetName();
@@ -33,7 +42,9 @@ internal class AddressBook
             Console.WriteLine("Contact name already exists");
     }
 
-    // Add Multiple Contacts
+    /// <summary>
+    /// Adds multiple contacts.
+    /// </summary>
     public void AddMultipleContacts()
     {
         int numberOfContacts = UserInput.GetPositiveInt("Enter no of Contacts to add: ");
@@ -41,7 +52,9 @@ internal class AddressBook
             CreateContact();
     }
 
-    // Allows Editing of contact based on fullname
+    /// <summary>
+    /// Edits a contact in AddressBook.
+    /// </summary>
     public void EditContact()
     {
         Console.Write("Enter Name of contact to edit: ");
@@ -66,7 +79,9 @@ internal class AddressBook
             Console.WriteLine("The contact does not exist");
     }
 
-    // Delete Contact if name matches
+    /// <summary>
+    /// Deletes a contact from AddressBook.
+    /// </summary>
     public void DeleteContact()
     {
         Console.Write("Enter Name of contact to delete: ");
@@ -80,7 +95,9 @@ internal class AddressBook
             Console.WriteLine("Contact does not exist");
     }
 
-    // Displays the full AddressBook
+    /// <summary>
+    /// Displays the full list of contacts in the AddressBook.
+    /// </summary>
     public void Display()
     {
         Console.WriteLine("List of Contacts:");

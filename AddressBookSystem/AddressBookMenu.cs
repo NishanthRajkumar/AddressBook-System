@@ -1,8 +1,15 @@
 ﻿namespace AddressBookSystem;
 
-// This class handles the menu for address book
+/// <summary>
+/// This class handles the menu for address book
+/// </summary>
 internal static class AddressBookMenu
 {
+    /// <summary>
+    /// Lists the menu option for an Address Book.
+    /// </summary>
+    /// <param name="addressBookName">Name of the address book.</param>
+    /// <param name="addressBook">The object of AddressBook</param>
     public static void List(string addressBookName, AddressBook addressBook)
     {
         int option;

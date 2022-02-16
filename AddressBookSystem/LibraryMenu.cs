@@ -1,8 +1,13 @@
 ﻿namespace AddressBookSystem;
 
-// This class handles the menu for Address books library
+/// <summary>
+/// This class handles the menu for Address books library
+/// </summary>
 internal class LibraryMenu
 {
+    /// <summary>
+    /// Lists the menu options for the library of Address Books.
+    /// </summary>
     public static void List()
     {
         int option;

@@ -1,6 +1,8 @@
 ﻿namespace AddressBookSystem;
 
-// This class handles each individual contact
+/// <summary>
+/// This class handles each individual contact
+/// </summary>
 internal class Contact
 {
     // Declared attributes required for a person's contact
@@ -13,27 +15,19 @@ internal class Contact
     private string zip = "";
     private string address = "";
 
-    // Default Constructor: Ensures there is user input
+    /// <summary>
+    /// Initializes a new instance of the <see cref="Contact"/> class.
+    /// <list>Gets Input from user to intialize the values</list>
+    /// <list>First Name cannot be empty</list>
+    /// </summary>
     public Contact()
     {
         GetContactInfo();
     }
 
-    // Parameterised Constructor: Takes first name & phone in parameters
-    public Contact(string firstName, string phone)
-    {
-        this.firstName = firstName;
-        if (UserInput.PhoneCheck(phone))
-            this.phone = phone;
-    }
-
-    // Parameterised Constructor: Takes first name as parameter
-    public Contact(string firstName)
-    {
-        this.firstName = firstName;
-    }
-
-    // Gets contact info from user
+    /// <summary>
+    /// Gets the contact information from user.
+    /// </summary>
     private void GetContactInfo()
     {
         firstName = UserInput.GetName("First name: ");
@@ -51,7 +45,9 @@ internal class Contact
         address = UserInput.ReadString();
     }
 
-    // Displays full contact 
+    /// <summary>
+    /// Displays all contents of the contact
+    /// </summary>
     public void Display()
     {
         Console.WriteLine("\nName: " + firstName + " " + lastName);
@@ -63,7 +59,10 @@ internal class Contact
         Console.WriteLine("Address: " + address);
     }
 
-    // Return the full name
+    /// <summary>
+    /// Gets the full name of the contact.
+    /// </summary>
+    /// <returns>The Full Name</returns>
     public string GetName()
     {
         if (String.IsNullOrEmpty(lastName) is true)
