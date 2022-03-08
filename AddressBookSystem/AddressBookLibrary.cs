@@ -55,14 +55,25 @@ internal class AddressBookLibrary
     }
 
     /// <summary>
+    /// Displays the filtered list.
+    /// </summary>
+    public void DisplayFilteredList()
+    {
+        List<Contact> filteredList = LocationFilter();
+        foreach (Contact contact in filteredList)
+            contact.Display();
+    }
+
+    /// <summary>
     /// Filter results based on location
     /// </summary>
-    public void LocationFilter()
+    public List<Contact> LocationFilter()
     {
         int option = 0;
-        Console.WriteLine("Search the full library of AddressBooks:");
-        Console.WriteLine("1. Search by state");
-        Console.WriteLine("2. Search by city");
+        List<Contact> filteredList = new List<Contact>();
+        Console.WriteLine("Filter Contact list in full library of AddressBooks:");
+        Console.WriteLine("1. Filter by state");
+        Console.WriteLine("2. Filter by city");
         Console.Write("Option: ");
         do
         {
@@ -80,42 +91,55 @@ internal class AddressBookLibrary
             case 1:
                 Console.Write("Enter state: ");
                 string state = Console.ReadLine();
-                Console.WriteLine($"List of contacts in {state}");
-                StateFilter(state);
+                StateFilter(state, filteredList);
                 break;
             case 2:
                 Console.WriteLine("Enter City: ");
                 string city = Console.ReadLine();
-                Console.WriteLine($"List of contacts in {city}");
-                CityFilter(city);
+                CityFilter(city, filteredList);
                 break;
             default:
                 Console.WriteLine("Error!!!");
                 break;
         }
+        return filteredList;
     }
 
     /// <summary>
     /// Filter results by city
     /// </summary>
-    public void CityFilter(string city)
+    public void CityFilter(string city, List<Contact> filteredList)
     {
         Dictionary<string, AddressBook>.Enumerator enumerator = library.GetEnumerator();
         while (enumerator.MoveNext())
         {
-            enumerator.Current.Value.CityFilter(city);
+            enumerator.Current.Value.CityFilter(city, filteredList);
         }
     }
 
     /// <summary>
     /// Filter results by state
     /// </summary>
-    public void StateFilter(string State)
+    public void StateFilter(string State, List<Contact> filteredList)
     {
         Dictionary<string, AddressBook>.Enumerator enumerator = library.GetEnumerator();
         while (enumerator.MoveNext())
         {
-            enumerator.Current.Value.StateFilter(State);
+            enumerator.Current.Value.StateFilter(State, filteredList);
         }
+    }
+
+    /// <summary>
+    /// Searches in the filtered list
+    /// </summary>
+    public void SearchAndFilter()
+    {
+        Console.Write("Enter name of person to search: ");
+        string fullName = Console.ReadLine();
+        List<Contact> filteredList = LocationFilter();
+        var searchResults = filteredList.FindAll(contact => contact.FullName == fullName);
+        Console.WriteLine("Filtered Search Results: ");
+        foreach (Contact contact in searchResults)
+            contact.Display();
     }
 }

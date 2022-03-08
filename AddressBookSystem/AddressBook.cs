@@ -105,15 +105,24 @@ internal class AddressBook
             addresses[name].Display();
     }
 
+    public void LookUp(string fullName)
+    {
+        if (addresses.ContainsKey(fullName))
+            addresses[fullName].Display();
+        else
+            Console.WriteLine("Contact does not exist");
+    }
+
     /// <summary>
     /// Filter results based on location
     /// </summary>
-    public void LocationFilter()
+    public void DisplayFilteredList()
     {
         int option = 0;
-        Console.WriteLine("Search this AddressBook:");
-        Console.WriteLine("1. Search by state");
-        Console.WriteLine("2. Search by city");
+        List<Contact> filterredList = new List<Contact>();
+        Console.WriteLine("Filter Contact list in this AddressBook:");
+        Console.WriteLine("1. Filter by state");
+        Console.WriteLine("2. Filter by city");
         Console.Write("Option: ");
         do
         {
@@ -132,13 +141,13 @@ internal class AddressBook
                 Console.Write("Enter state: ");
                 string state = Console.ReadLine();
                 Console.WriteLine($"List of contacts in {state}");
-                StateFilter(state);
+                StateFilter(state, filterredList);
                 break;
             case 2:
                 Console.WriteLine("Enter City: ");
                 string city = Console.ReadLine();
                 Console.WriteLine($"List of contacts in {city}");
-                CityFilter(city);
+                CityFilter(city, filterredList);
                 break;
             default:
                 Console.WriteLine("Error!!!");
@@ -149,22 +158,22 @@ internal class AddressBook
     /// <summary>
     /// Filter results by city
     /// </summary>
-    public void CityFilter(string city)
+    public void CityFilter(string city, List<Contact> filteredList)
     {
         Dictionary<string, Contact>.Enumerator enumerator = addresses.GetEnumerator();
         while (enumerator.MoveNext())
             if (enumerator.Current.Value.City == city)
-                enumerator.Current.Value.Display();
+                filteredList.Add(enumerator.Current.Value);
     }
 
     /// <summary>
     /// Filter results by state
     /// </summary>
-    public void StateFilter(string state)
+    public void StateFilter(string state, List<Contact> filteredList)
     {
         Dictionary<string, Contact>.Enumerator enumerator = addresses.GetEnumerator();
         while (enumerator.MoveNext())
             if (enumerator.Current.Value.State == state)
-                enumerator.Current.Value.Display();
+                filteredList.Add(enumerator.Current.Value);
     }
 }

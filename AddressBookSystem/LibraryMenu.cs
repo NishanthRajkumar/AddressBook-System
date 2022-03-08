@@ -21,7 +21,8 @@ internal class LibraryMenu
             Console.WriteLine("2. Open an AddressBook");
             Console.WriteLine("3. Display all Address Books in library");
             Console.WriteLine("4. Filter contact list by city/state");
-            Console.WriteLine("5. Exit");
+            Console.WriteLine("5. Search and filter by location");
+            Console.WriteLine("6. Exit");
             option = UserInput.GetPositiveInt("Enter option(1-5): ");
             Console.Clear();
             switch (option)
@@ -36,9 +37,12 @@ internal class LibraryMenu
                     mylibrary.Display();
                     break;
                 case 4:
-                    mylibrary.LocationFilter();
+                    mylibrary.DisplayFilteredList();
                     break;
                 case 5:
+                    mylibrary.SearchAndFilter();
+                    break;
+                case 6:
                     Console.WriteLine("Exiting Application...");
                     break;
                 default:
