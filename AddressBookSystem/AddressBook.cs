@@ -31,7 +31,7 @@ internal class AddressBook
     public void AddContact(Contact contact)
     {
         string name = contact.GetName();
-        if (addresses.ContainsKey(name) is false && String.IsNullOrEmpty(name) is false)
+        if (addresses.Any(e => e.Value.Equals(contact)) is false)
         {
             addresses.Add(name, contact);
             Console.WriteLine("Contact Added Successfully");

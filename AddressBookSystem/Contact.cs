@@ -69,4 +69,13 @@ internal class Contact
             return firstName;
         return firstName + " " + lastName;
     }
+
+    public override bool Equals(object obj)
+    {
+        if (obj is not Contact)
+            return false;
+        else if (GetName() == ((Contact)obj).GetName())
+            return true;
+        return false;
+    }
 }
