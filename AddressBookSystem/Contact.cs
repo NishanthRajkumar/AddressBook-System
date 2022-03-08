@@ -88,4 +88,12 @@ internal class Contact
             return true;
         return false;
     }
+
+    /// <summary>
+    /// Returns a hash code for this instance.
+    /// </summary>
+    public override int GetHashCode()
+    {
+        return FullName.GetHashCode();
+    }
 }
