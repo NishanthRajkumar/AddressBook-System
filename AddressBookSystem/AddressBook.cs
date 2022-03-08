@@ -17,7 +17,7 @@ internal class AddressBook
     }
 
     /// <summary>
-    /// Creates a new contact.
+    /// Creates a new contact
     /// </summary>
     public void CreateContact()
     {
@@ -25,12 +25,12 @@ internal class AddressBook
     }
 
     /// <summary>
-    /// Adds the contact to the AddressBook.
+    /// Adds the contact to the AddressBook
     /// </summary>
     /// <param name="contact">The Contact object.</param>
     public void AddContact(Contact contact)
     {
-        string name = contact.GetName();
+        string name = contact.FullName;
         if (addresses.Any(e => e.Value.Equals(contact)) is false)
         {
             addresses.Add(name, contact);
@@ -43,7 +43,7 @@ internal class AddressBook
     }
 
     /// <summary>
-    /// Adds multiple contacts.
+    /// Adds multiple contacts
     /// </summary>
     public void AddMultipleContacts()
     {
@@ -65,7 +65,7 @@ internal class AddressBook
             addresses[name].Display();
             Console.WriteLine("\nEdit info: ");
             Contact contact = new();
-            string newName = contact.GetName();
+            string newName = contact.FullName;
             if (addresses.ContainsKey(newName) is false || newName == name)
             {
                 addresses.Remove(name);
@@ -103,5 +103,68 @@ internal class AddressBook
         Console.WriteLine("List of Contacts:");
         foreach (var name in addresses.Keys)
             addresses[name].Display();
+    }
+
+    /// <summary>
+    /// Filter results based on location
+    /// </summary>
+    public void LocationFilter()
+    {
+        int option = 0;
+        Console.WriteLine("Search this AddressBook:");
+        Console.WriteLine("1. Search by state");
+        Console.WriteLine("2. Search by city");
+        Console.Write("Option: ");
+        do
+        {
+            try
+            {
+                option = int.Parse(Console.ReadLine());
+            }
+            catch
+            {
+                Console.WriteLine("Input must be Integer only");
+            }
+        } while (option != 1 && option != 2);
+        switch (option)
+        {
+            case 1:
+                Console.Write("Enter state: ");
+                string state = Console.ReadLine();
+                Console.WriteLine($"List of contacts in {state}");
+                StateFilter(state);
+                break;
+            case 2:
+                Console.WriteLine("Enter City: ");
+                string city = Console.ReadLine();
+                Console.WriteLine($"List of contacts in {city}");
+                CityFilter(city);
+                break;
+            default:
+                Console.WriteLine("Error!!!");
+                break;
+        }
+    }
+
+    /// <summary>
+    /// Filter results by city
+    /// </summary>
+    public void CityFilter(string city)
+    {
+        Dictionary<string, Contact>.Enumerator enumerator = addresses.GetEnumerator();
+        while (enumerator.MoveNext())
+            if (enumerator.Current.Value.City == city)
+                enumerator.Current.Value.Display();
+    }
+
+    /// <summary>
+    /// Filter results by state
+    /// </summary>
+    public void StateFilter(string state)
+    {
+        Dictionary<string, Contact>.Enumerator enumerator = addresses.GetEnumerator();
+        while (enumerator.MoveNext())
+            if (enumerator.Current.Value.State == state)
+                enumerator.Current.Value.Display();
     }
 }

@@ -15,10 +15,21 @@ internal class Contact
     private string zip = "";
     private string address = "";
 
+    // Properties
+    public string FullName
+    {
+        get
+        {
+            if (String.IsNullOrEmpty(lastName) is true)
+                return firstName;
+            return firstName + " " + lastName;
+        }
+    }
+    public string City { get { return city; } }
+    public string State { get { return state; } }
+
     /// <summary>
     /// Initializes a new instance of the <see cref="Contact"/> class.
-    /// <list>Gets Input from user to intialize the values</list>
-    /// <list>First Name cannot be empty</list>
     /// </summary>
     public Contact()
     {
@@ -60,21 +71,16 @@ internal class Contact
     }
 
     /// <summary>
-    /// Gets the full name of the contact.
+    /// Determines whether the specified object is equal to this contact object.
     /// </summary>
-    /// <returns>The Full Name</returns>
-    public string GetName()
-    {
-        if (String.IsNullOrEmpty(lastName) is true)
-            return firstName;
-        return firstName + " " + lastName;
-    }
-
+    /// <returns>
+    ///   <c>true</c> if the specified object is equal to this contact object; otherwise, <c>false</c>.
+    /// </returns>
     public override bool Equals(object obj)
     {
         if (obj is not Contact)
             return false;
-        else if (GetName() == ((Contact)obj).GetName())
+        else if (FullName == ((Contact)obj).FullName)
             return true;
         return false;
     }

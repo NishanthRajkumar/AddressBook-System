@@ -20,8 +20,9 @@ internal class LibraryMenu
             Console.WriteLine("1. Create New Address Book");
             Console.WriteLine("2. Open an AddressBook");
             Console.WriteLine("3. Display all Address Books in library");
-            Console.WriteLine("4. Exit");
-            option = UserInput.GetPositiveInt("Enter option(1-4): ");
+            Console.WriteLine("4. Filter contact list by city/state");
+            Console.WriteLine("5. Exit");
+            option = UserInput.GetPositiveInt("Enter option(1-5): ");
             Console.Clear();
             switch (option)
             {
@@ -35,16 +36,19 @@ internal class LibraryMenu
                     mylibrary.Display();
                     break;
                 case 4:
+                    mylibrary.LocationFilter();
+                    break;
+                case 5:
                     Console.WriteLine("Exiting Application...");
                     break;
                 default:
                     Console.WriteLine("Invalid Option!!!");
                     break;
             }
-            if (option == 4)
+            if (option == 5)
                 break;
             Console.WriteLine("Press any key to Continue...");
             Console.ReadKey();
-        } while (option != 4);
+        } while (option != 5);
     }
 }

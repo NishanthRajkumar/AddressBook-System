@@ -53,4 +53,69 @@ internal class AddressBookLibrary
         foreach (var name in library.Keys)
             Console.WriteLine(name);
     }
+
+    /// <summary>
+    /// Filter results based on location
+    /// </summary>
+    public void LocationFilter()
+    {
+        int option = 0;
+        Console.WriteLine("Search the full library of AddressBooks:");
+        Console.WriteLine("1. Search by state");
+        Console.WriteLine("2. Search by city");
+        Console.Write("Option: ");
+        do
+        {
+            try
+            {
+                option = int.Parse(Console.ReadLine());
+            }
+            catch
+            {
+                Console.WriteLine("Input must be Integer only");
+            }
+        } while (option != 1 && option != 2);
+        switch (option)
+        {
+            case 1:
+                Console.Write("Enter state: ");
+                string state = Console.ReadLine();
+                Console.WriteLine($"List of contacts in {state}");
+                StateFilter(state);
+                break;
+            case 2:
+                Console.WriteLine("Enter City: ");
+                string city = Console.ReadLine();
+                Console.WriteLine($"List of contacts in {city}");
+                CityFilter(city);
+                break;
+            default:
+                Console.WriteLine("Error!!!");
+                break;
+        }
+    }
+
+    /// <summary>
+    /// Filter results by city
+    /// </summary>
+    public void CityFilter(string city)
+    {
+        Dictionary<string, AddressBook>.Enumerator enumerator = library.GetEnumerator();
+        while (enumerator.MoveNext())
+        {
+            enumerator.Current.Value.CityFilter(city);
+        }
+    }
+
+    /// <summary>
+    /// Filter results by state
+    /// </summary>
+    public void StateFilter(string State)
+    {
+        Dictionary<string, AddressBook>.Enumerator enumerator = library.GetEnumerator();
+        while (enumerator.MoveNext())
+        {
+            enumerator.Current.Value.StateFilter(State);
+        }
+    }
 }
