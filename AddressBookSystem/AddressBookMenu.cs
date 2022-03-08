@@ -19,13 +19,14 @@ internal static class AddressBookMenu
             Console.WriteLine("-------------Address Book: " + addressBookName + "-------------");
             Console.WriteLine("Choose from following:\n");
             Console.WriteLine("1. Create and add contact");
-            Console.WriteLine("2. Edit a contact");
-            Console.WriteLine("3. Delete a contact");
-            Console.WriteLine("4. Look up a contact");
-            Console.WriteLine("5. Display Address Book");
-            Console.WriteLine("6. Filter contact list by city/state");
-            Console.WriteLine("7. Exit to library");
-            option = UserInput.GetPositiveInt("Enter option(1-6): ");
+            Console.WriteLine("2. Add multiple contacts");
+            Console.WriteLine("3. Edit a contact");
+            Console.WriteLine("4. Delete a contact");
+            Console.WriteLine("5. Look up a contact");
+            Console.WriteLine("6. Display Address Book");
+            Console.WriteLine("7. Filter contact list by city/state");
+            Console.WriteLine("8. Exit to library");
+            option = UserInput.GetPositiveInt("Enter option(1-8): ");
             Console.Clear();
             switch (option)
             {
@@ -33,33 +34,36 @@ internal static class AddressBookMenu
                     addressBook.CreateContact();
                     break;
                 case 2:
-                    addressBook.EditContact();
+                    addressBook.AddMultipleContacts();
                     break;
                 case 3:
-                    addressBook.DeleteContact();
+                    addressBook.EditContact();
                     break;
                 case 4:
+                    addressBook.DeleteContact();
+                    break;
+                case 5:
                     Console.Write("Enter name of contact to look up: ");
                     string fullname = Console.ReadLine();
                     addressBook.LookUp(fullname);
                     break;
-                case 5:
+                case 6:
                     addressBook.Display();
                     break;
-                case 6:
+                case 7:
                     addressBook.DisplayFilteredList();
                     break;
-                case 7:
+                case 8:
                     Console.WriteLine("Exiting to library...");
                     break;
                 default:
                     Console.WriteLine("Invalid Option!!!");
                     break;
             }
-            if (option == 7)
+            if (option == 8)
                 break;
             Console.WriteLine("Press any key to Continue...");
             Console.ReadKey();
-        } while (option != 7);
+        } while (option != 8);
     }
 }

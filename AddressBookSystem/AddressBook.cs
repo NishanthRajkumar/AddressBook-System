@@ -6,7 +6,7 @@
 internal class AddressBook
 {
     // Dictionary for storing contacts with unique name
-    private readonly Dictionary<string, Contact> addresses;
+    public readonly Dictionary<string, Contact> addresses;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AddressBook"/> class.
@@ -31,13 +31,16 @@ internal class AddressBook
     public void AddContact(Contact contact)
     {
         string name = contact.FullName;
+        if (name == null)
+        {
+            Console.WriteLine("Invalid Contact name");
+            return;
+        }
         if (addresses.Any(e => e.Value.Equals(contact)) is false)
         {
             addresses.Add(name, contact);
             Console.WriteLine("Contact Added Successfully");
         }
-        else if (String.IsNullOrEmpty(name))
-            Console.WriteLine("Invalid Contac name");
         else
             Console.WriteLine("Contact name already exists");
     }

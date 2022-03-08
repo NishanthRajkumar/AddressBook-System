@@ -23,7 +23,7 @@ internal class LibraryMenu
             Console.WriteLine("4. Filter contact list by city/state");
             Console.WriteLine("5. Search and filter by location");
             Console.WriteLine("6. Exit");
-            option = UserInput.GetPositiveInt("Enter option(1-5): ");
+            option = UserInput.GetPositiveInt("Enter option(1-6): ");
             Console.Clear();
             switch (option)
             {
@@ -49,10 +49,10 @@ internal class LibraryMenu
                     Console.WriteLine("Invalid Option!!!");
                     break;
             }
-            if (option == 5)
+            if (option == 6)
                 break;
             Console.WriteLine("Press any key to Continue...");
             Console.ReadKey();
-        } while (option != 5);
+        } while (option != 6);
     }
 }
