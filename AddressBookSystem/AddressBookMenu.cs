@@ -26,7 +26,7 @@ internal static class AddressBookMenu
             Console.WriteLine("6. Display Address Book");
             Console.WriteLine("7. Filter contact list by city/state");
             Console.WriteLine("8. Display no of contacts by location");
-            Console.WriteLine("9. Sort contacts by name");
+            Console.WriteLine("9. Sort your contacts");
             Console.WriteLine("10. Exit to library");
             option = UserInput.GetPositiveInt("Enter option(1-10): ");
             Console.Clear();
@@ -59,7 +59,7 @@ internal static class AddressBookMenu
                     addressBook.DisplayCountByLocation();
                     break;
                 case 9:
-                    addressBook.SortByName();
+                    addressBook.SortOptions();
                     break;
                 case 10:
                     Console.WriteLine("Exiting to library...");

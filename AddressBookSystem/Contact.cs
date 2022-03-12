@@ -31,6 +31,7 @@ public class Contact
     }
     public string City { get { return city; } }
     public string State { get { return state; } }
+    public string Zip { get { return zip; } }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Contact"/> class.
