@@ -98,4 +98,19 @@ public class Contact
             return "".GetHashCode();
         return FullName.GetHashCode();
     }
+
+
+    public override string ToString()
+    {
+        string details;
+        details = $"First Name: {firstName}\n";
+        details += $"Last Name: {lastName}\n";
+        details += $"Phone: {phone}\n";
+        details += $"Email: {email}\n";
+        details += $"City: {city}\n";
+        details += $"State: {state}\n";
+        details += $"Zip: {zip}\n";
+        details += $"Address: {address}\n";
+        return details;
+    }
 }

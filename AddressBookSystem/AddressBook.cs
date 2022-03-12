@@ -203,4 +203,15 @@ public class AddressBook
             counts.Add(location, addresses.Values.Count(contact => Match(contact, location)));
         return counts;
     }
+
+    /// <summary>
+    /// Sorts the Contacts by name.
+    /// </summary>
+    public void SortByName()
+    {
+        Console.WriteLine("Sorting by Name:");
+        var sorted = addresses.OrderBy(x => x.Key);
+        foreach (var contact in sorted)
+            Console.WriteLine("\n" + contact.Value);
+    }
 }
