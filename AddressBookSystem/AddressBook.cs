@@ -330,13 +330,8 @@ public class AddressBook
     /// </summary>
     public void SaveAsJSON()
     {
-        JsonSerializer serializer = new JsonSerializer();
-
-        using (StreamWriter sw = new StreamWriter(JSON_FILES_PATH + name + @".json"))
-        using (JsonWriter writer = new JsonTextWriter(sw))
-        {
-            serializer.Serialize(writer, ContactList);
-        }
+        string jsonText = JsonConvert.SerializeObject(ContactList, Formatting.Indented);
+        File.WriteAllText(JSON_FILES_PATH + name + @".json", jsonText);
     }
 
     /// <summary>
