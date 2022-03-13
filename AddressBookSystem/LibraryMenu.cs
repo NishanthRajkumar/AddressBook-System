@@ -47,6 +47,7 @@ internal class LibraryMenu
                     mylibrary.DisplayCountByLocation();
                     break;
                 case 7:
+                    mylibrary.SaveAllAddressBooksToFile();
                     Console.WriteLine("Exiting Application...");
                     break;
                 default:

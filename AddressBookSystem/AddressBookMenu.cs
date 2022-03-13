@@ -10,13 +10,13 @@ internal static class AddressBookMenu
     /// </summary>
     /// <param name="addressBookName">Name of the address book.</param>
     /// <param name="addressBook">The object of AddressBook</param>
-    public static void List(string addressBookName, AddressBook addressBook)
+    public static void List(AddressBook addressBook)
     {
         int option;
         do
         {
             Console.Clear();
-            Console.WriteLine("-------------Address Book: " + addressBookName + "-------------");
+            Console.WriteLine("-------------Address Book: " + addressBook.name + "-------------");
             Console.WriteLine("Choose from following:\n");
             Console.WriteLine("1. Create and add contact");
             Console.WriteLine("2. Add multiple contacts");
@@ -46,8 +46,8 @@ internal static class AddressBookMenu
                     break;
                 case 5:
                     Console.Write("Enter name of contact to look up: ");
-                    string fullname = Console.ReadLine();
-                    addressBook.LookUp(fullname);
+                    string fullName = Console.ReadLine();
+                    addressBook.LookUp(fullName);
                     break;
                 case 6:
                     addressBook.Display();

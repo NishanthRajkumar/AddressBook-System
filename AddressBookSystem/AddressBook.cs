@@ -1,19 +1,29 @@
-﻿namespace AddressBookSystem;
+﻿using CsvHelper;
+using Newtonsoft.Json;
+using System.Globalization;
+using System.Runtime.Serialization.Formatters.Binary;
+
+namespace AddressBookSystem;
 
 /// <summary>
 /// This Class handles all contacts in an address book
 /// </summary>
 public class AddressBook
 {
-    // Dictionary for storing contacts with unique name
-    public readonly Dictionary<string, Contact> addresses;
+    const string PATH = @"C:\Users\Nishanth\Desktop\codingclub\RFP\Assignments\AddressBookSystem\AddressBookSystem\AddressBook Library\";
+    public const string TEXT_FILES_PATH = PATH + @"Text Files\";
+    public const string CSV_FILES_PATH = PATH + @"CSV Files\";
+    public const string JSON_FILES_PATH = PATH + @"JSON Files\";
+    public Dictionary<string, Contact> ContactList { get; set; }
+    public readonly string name;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AddressBook"/> class.
     /// </summary>
-    public AddressBook()
+    public AddressBook(string name)
     {
-        addresses = new Dictionary<string, Contact>();
+        ContactList = new Dictionary<string, Contact>();
+        this.name = name;
     }
 
     /// <summary>
@@ -30,15 +40,16 @@ public class AddressBook
     /// <param name="contact">The Contact object.</param>
     public void AddContact(Contact contact)
     {
+        contact.GetContactInfo();
         string name = contact.FullName;
         if (name == null)
         {
             Console.WriteLine("Invalid Contact name");
             return;
         }
-        if (addresses.Any(e => e.Value.Equals(contact)) is false)
+        if (ContactList.Any(e => e.Value.Equals(contact)) is false)
         {
-            addresses.Add(name, contact);
+            ContactList.Add(name, contact);
             Console.WriteLine("Contact Added Successfully");
         }
         else
@@ -62,17 +73,18 @@ public class AddressBook
     {
         Console.Write("Enter Name of contact to edit: ");
         string name = UserInput.ReadString();
-        if (addresses.ContainsKey(name))
+        if (ContactList.ContainsKey(name))
         {
             Console.WriteLine("\nCurrent info of " + name);
-            addresses[name].Display();
+            ContactList[name].Display();
             Console.WriteLine("\nEdit info: ");
             Contact contact = new();
+            contact.GetContactInfo();
             string newName = contact.FullName;
-            if (addresses.ContainsKey(newName) is false || newName == name)
+            if (ContactList.ContainsKey(newName) is false || newName == name)
             {
-                addresses.Remove(name);
-                addresses[newName] = contact;
+                ContactList.Remove(name);
+                ContactList[newName] = contact;
                 Console.WriteLine("Updated!!");
             }
             else
@@ -89,9 +101,9 @@ public class AddressBook
     {
         Console.Write("Enter Name of contact to delete: ");
         string name = UserInput.ReadString();
-        if (addresses.ContainsKey(name))
+        if (ContactList.ContainsKey(name))
         {
-            addresses.Remove(name);
+            ContactList.Remove(name);
             Console.WriteLine("Contact removed");
         }
         else
@@ -104,8 +116,8 @@ public class AddressBook
     public void Display()
     {
         Console.WriteLine("List of Contacts:");
-        foreach (var name in addresses.Keys)
-            addresses[name].Display();
+        foreach (var name in ContactList.Keys)
+            ContactList[name].Display();
     }
 
     /// <summary>
@@ -113,8 +125,8 @@ public class AddressBook
     /// </summary>
     public void LookUp(string fullName)
     {
-        if (addresses.ContainsKey(fullName))
-            addresses[fullName].Display();
+        if (ContactList.ContainsKey(fullName))
+            ContactList[fullName].Display();
         else
             Console.WriteLine("Contact does not exist");
     }
@@ -168,7 +180,7 @@ public class AddressBook
     /// <param name="Match">The match delegate</param>
     public void FilterList(string location, List<Contact> filterList, MatchLocation Match)
     {
-        foreach (Contact contact in addresses.Values)
+        foreach (Contact contact in ContactList.Values)
             if (Match(contact, location))
                 filterList.Add(contact);
     }
@@ -198,9 +210,9 @@ public class AddressBook
     public Dictionary<string, int> GetLocationCount(GetLocation Selector, MatchLocation Match)
     {
         Dictionary<string, int> counts = new();
-        var locationList = addresses.Values.Select(x => Selector(x)).Distinct().ToList();
+        var locationList = ContactList.Values.Select(x => Selector(x)).Distinct().ToList();
         foreach (var location in locationList)
-            counts.Add(location, addresses.Values.Count(contact => Match(contact, location)));
+            counts.Add(location, ContactList.Values.Count(contact => Match(contact, location)));
         return counts;
     }
 
@@ -252,8 +264,100 @@ public class AddressBook
     private void Sort(Func<KeyValuePair<string, Contact>, string> sortCondition)
     {
         Console.WriteLine("Sorted List:");
-        var sorted = addresses.OrderBy(sortCondition);
+        var sorted = ContactList.OrderBy(sortCondition);
         foreach (var contact in sorted)
             Console.WriteLine("\n" + contact.Value);
+    }
+
+    /// <summary>
+    /// Saves to file.
+    /// </summary>
+    public void SaveToFile()
+    {
+        try
+        {
+            SaveAsJSON();
+        }
+        catch (Exception)
+        {
+            Console.WriteLine("Failed to save the addressbook as json file");
+        }
+        try
+        {
+            SaveAsTxt();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("Failed to save the addressbook as text file");
+            Console.WriteLine("Error msg: " + e.Message);
+        }
+        try
+        {
+            SaveAsCSV();
+        }
+        catch (Exception)
+        {
+            Console.WriteLine("Failed to save the addressbook as csv file");
+        }
+    }
+
+    /// <summary>
+    /// Saves as text file.
+    /// </summary>
+    public void SaveAsTxt()
+    {
+        FileStream fileStream = new FileStream(TEXT_FILES_PATH + name + @".txt", FileMode.Create);
+        BinaryFormatter formatter = new BinaryFormatter();
+        formatter.Serialize(fileStream, ContactList); // convert object to binary & writes in a text file  
+        fileStream.Close();
+        fileStream.Dispose();
+    }
+
+    /// <summary>
+    /// Saves as CSV file.
+    /// </summary>
+    public void SaveAsCSV()
+    {
+        using (var writer = new StreamWriter(CSV_FILES_PATH + name + @".csv"))
+        using (var csvExport = new CsvWriter(writer, CultureInfo.InvariantCulture))
+        {
+            csvExport.WriteRecords(ContactList);
+        }
+    }
+
+    /// <summary>
+    /// Saves as json file.
+    /// </summary>
+    public void SaveAsJSON()
+    {
+        JsonSerializer serializer = new JsonSerializer();
+
+        using (StreamWriter sw = new StreamWriter(JSON_FILES_PATH + name + @".json"))
+        using (JsonWriter writer = new JsonTextWriter(sw))
+        {
+            serializer.Serialize(writer, ContactList);
+        }
+    }
+
+    /// <summary>
+    /// Reads from json file.
+    /// </summary>
+    public void ReadFromFile()
+    {
+        try
+        {
+            string fileContent = File.ReadAllText(JSON_FILES_PATH + name + @".json");
+            ContactList = JsonConvert.DeserializeObject<Dictionary<string, Contact>>(fileContent);
+        }
+        catch (DirectoryNotFoundException)
+        {
+            Console.WriteLine($"Failed to Read file! {name}.json File could not be found");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Read from File failed!");
+            Console.WriteLine("Exception Error Message: ");
+            Console.WriteLine(ex.Message);
+        }
     }
 }

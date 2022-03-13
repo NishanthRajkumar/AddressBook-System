@@ -7,14 +7,21 @@ public delegate bool MatchLocation(Contact contact, string location);
 /// </summary>
 public class AddressBookLibrary
 {
-    private readonly Dictionary<string, AddressBook> library;
+    public Dictionary<string, AddressBook> Library { get; set; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AddressBookLibrary"/> class.
+    /// <para>Reads All AddressBooks from file if any</para>
     /// </summary>
     public AddressBookLibrary()
     {
-        library = new Dictionary<string, AddressBook>();
+        Library = new Dictionary<string, AddressBook>();
+        var files = Directory.GetFiles(AddressBook.JSON_FILES_PATH, "*.json").Select(Path.GetFileNameWithoutExtension).ToArray();
+        foreach (var file in files)
+        {
+            Library.Add(file, new AddressBook(file));
+            Library[file].ReadFromFile();
+        }
     }
 
     /// <summary>
@@ -23,9 +30,9 @@ public class AddressBookLibrary
     public void AddAddressBook()
     {
         string name = UserInput.GetName("Enter Name of AddressBook: ");
-        if (library.ContainsKey(name) is false && String.IsNullOrEmpty(name) is false)
+        if (Library.ContainsKey(name) is false && String.IsNullOrEmpty(name) is false)
         {
-            library.Add(name, new AddressBook());
+            Library.Add(name, new AddressBook(name));
             Console.WriteLine("AddressBook Added Successfully");
         }
         else if (String.IsNullOrEmpty(name))
@@ -40,8 +47,8 @@ public class AddressBookLibrary
     public void OpenAddressBook()
     {
         string name = UserInput.GetName("Enter Name of AddressBook: ");
-        if (library.ContainsKey(name))
-            AddressBookMenu.List(name, library[name]);
+        if (Library.ContainsKey(name))
+            AddressBookMenu.List(Library[name]);
         else
             Console.WriteLine("Addressbook with that name does not exist");
     }
@@ -52,7 +59,7 @@ public class AddressBookLibrary
     public void Display()
     {
         Console.WriteLine("List of Address Books:");
-        foreach (var name in library.Keys)
+        foreach (var name in Library.Keys)
             Console.WriteLine(name);
     }
 
@@ -104,7 +111,7 @@ public class AddressBookLibrary
     /// <param name="Match">The match condition</param>
     public void FilterList(string location, List<Contact> filterList, MatchLocation Match)
     {
-        foreach (AddressBook book in library.Values)
+        foreach (AddressBook book in Library.Values)
             book.FilterList(location, filterList, Match);
     }
 
@@ -147,7 +154,7 @@ public class AddressBookLibrary
     public Dictionary<string, int> GetLocationCount(GetLocation Selector, MatchLocation Match)
     {
         Dictionary<string, int> locationCounts = new();
-        var locationWiseCountCollection = library.Values.Select(x => x.GetLocationCount(Selector, Match)).ToList();
+        var locationWiseCountCollection = Library.Values.Select(x => x.GetLocationCount(Selector, Match)).ToList();
         foreach (var locationWiseCount in locationWiseCountCollection)
             foreach (var location in locationWiseCount)
                 if (locationCounts.ContainsKey(location.Key))
@@ -155,6 +162,15 @@ public class AddressBookLibrary
                 else
                     locationCounts.Add(location.Key, location.Value);
         return locationCounts;
+    }
+
+    /// <summary>
+    /// Saves all address books to file.
+    /// </summary>
+    public void SaveAllAddressBooksToFile()
+    {
+        foreach (var addressBook in Library.Values)
+            addressBook.SaveToFile();
     }
 }
 
